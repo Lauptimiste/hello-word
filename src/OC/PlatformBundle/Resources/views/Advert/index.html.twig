@@ -1,0 +1,52 @@
+{% extends "OCPlatformBundle::layout.html.twig" %}
+
+{% block title %}
+  Accueil - {{ parent() }}
+{% endblock %}
+
+{% block ocplatform_body %}
+
+  <h2>Liste des annonces</h2>
+  <div class="">
+    <div class="col-lg-12">
+      <ul class="pagination">
+        {# On utilise la fonction range(a, b) qui crée un tableau de valeurs entre a et b #}
+        {% for p in range(1, nbPages) %}
+          <li{% if p == page %} class="active"{% endif %}>
+            <a href="{{ path('oc_platform_home', {'page': p}) }}">{{ p }}</a>
+          </li>
+        {% endfor %}
+      </ul>    
+    </div>
+    
+    {% for advert in listAdverts %}
+      <div class="col-lg-12" style="border-bottom:2px solid #f6f6f6; margin-bottom:10px">
+        <a href="{{ path('oc_platform_view', {'id': advert.id}) }}" style="color:#000000">  
+          {% if not advert.categories.empty %}
+            <div style="color:mediumseagreen">
+              {% for cat in advert.categories %}
+              {{ cat.name }}
+              {% endfor %}
+            </div>
+          {% endif %}
+        
+        {% if advert.image is not null %}
+          <div class="col-lg-4">
+            <img src="{{ asset(advert.image.webPath) }}" alt="{{ advert.image.alt }}" class="img-responsive">
+          </div>
+          <div class="col-lg-8">
+            <h2>{{ advert.title }}</h2>
+            <i>Par {{ advert.author }}, le {{ advert.date|date('d/m/Y') }}</i>
+          </div>
+        {% else %}        
+            <h2>{{ advert.title }}</h2>
+            <i>Par {{ advert.author }}, le {{ advert.date|date('d/m/Y') }}</i>
+        {% endif %}
+        </a>
+      </div>
+    {% else %}
+      <span>Pas (encore !) d'annonces</span>
+    {% endfor %}
+  </div>
+
+{% endblock %}

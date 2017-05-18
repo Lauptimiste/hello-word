@@ -1,0 +1,9 @@
+oc_core_home:
+    path:     /
+    defaults: { _controller: OCCoreBundle:General:index }
+    
+oc_core_contact:
+    path:    /contact.{format}
+    defaults: { _controller: OCCoreBundle:General:contact, format:html }
+    requirements:
+      format: html|php
