@@ -1,0 +1,26 @@
+{% extends "OCCoreBundle::layout.html.twig" %}
+
+{% block title %}
+  {{parent()}} Accueil
+{% endblock %}
+
+{% block body %}
+  <h2>Bienvenue à OpenclassRoom !</h2>
+  {% for message in app.session.flashbag.get('info') %}
+    <p>Attention : {{ message }}</p>
+  {% endfor %}  
+  
+  <a href="{{ path('oc_platform_home') }}" class="btn btn-default">
+    Aller à la platforme d'annonces
+    <i class="glyphicon glyphicon-chevron-right"></i>
+  </a>
+  
+{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+    Connecté en tant que {{ app.user.username }}
+    -
+    <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
+{% else %}
+    <a href="{{ path('fos_user_security_login') }}">Connexion</a>
+{% endif %}  
+
+{% endblock %}
